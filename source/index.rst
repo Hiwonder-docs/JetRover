@@ -22,4 +22,4 @@ JetRover
    docs/9.Voice_Control_Course.md
    docs/10.Large_AI_Model_Courses_checked.md
    docs/resources_download.md
-   Download <https://drive.google.com/drive/folders/1x5IXJTTF_mz3FnN-iiRB4MxgKbYnIj25?usp=sharing>
+   Download <https://drive.google.com/drive/folders/1vq1eKIud0k25Se_9CTX-U5Rp2zZ8Snzv?usp=sharing>
