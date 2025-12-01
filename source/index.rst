@@ -36,3 +36,4 @@ JetRover & JetRover Pro (Jetson Nano Version)
    docs/23.ROS2-MoveIt & Gazebo Simulation.md
    docs/24.ROS2-Voice Control Course.md
    docs/25.AI Large Language Model Course (Overseas Version).md
+   docs/Appendix.md
