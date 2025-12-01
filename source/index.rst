@@ -3,23 +3,36 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-==================
-JetRover (Orin Nano Version)
-==================
+===========================
+JetArm & JetArm Pro (Jetson Nano Version)
+===========================
 
 .. toctree::
    :maxdepth: 2
-   :caption: JetRover (Orin Nano Version)
+   :caption: Specification
 
-   docs/1.Quick_Start_Guide.md
-   docs/2.Motion_Control_Course.md
-   docs/3.Lidar_Course.md
-   docs/4.Mapping_Navigation_Course.md
-   docs/5.ROS+OpenCV_Course.md
-   docs/6.ROS+Machine_Learning_Course.md
-   docs/7.Robot_Arm_Control_Course.md
-   docs/8.MoveIt_Gazebo_Simulation.md
-   docs/9.Voice_Control_Course.md
-   docs/10.Large_AI_Model_Courses_checked.md
-   docs/resources_download.md
-   Download <https://drive.google.com/drive/folders/1vq1eKIud0k25Se_9CTX-U5Rp2zZ8Snzv?usp=sharing>
+   docs/1.Quick Start Guide.md
+   docs/2.Basic Development Courses.md
+   docs/3.ROS1-Chassis Motion Control Lesson.md
+   docs/4.ROS1-Lidar Lesson.md
+   docs/5.ROS1-JetRover Depth Camera Basic Lesson.md
+   docs/6.ROS1-Mapping Navigation Lesson.md
+   docs/7.ROS1-Multi-robot Formation Manual.md
+   docs/8.ROS1-STM32 Controller Lesson.md
+   docs/9.ROS1-ROS+OpenCV Lesson.md
+   docs/10.ROS1-ROS+Machine Learning Lesson.md
+   docs/11.ROS1-Robotic Arm Control.md
+   docs/12.ROS1-MoveIt & Gazebo Simulation.md
+   docs/13.ROS1-Voice Control Lesson.md
+   docs/14.ROS Basic Course.md
+   docs/15.Docker Container Course.md
+   docs/16.ROS2-Motion Control Course.md
+   docs/17.ROS2-Lidar Course.md
+   docs/18.ROS2-Depth Camera Basic Course.md
+   docs/19.ROS2-Mapping & Navigation Course.md
+   docs/20.ROS2-ROS+OpenCV Course.md
+   docs/21.ROS2-ROS+Machine Learning Course.md
+   docs/22.ROS2-Robot Arm Control Course.md
+   docs/23.ROS2-MoveIt & Gazebo Simulation.md
+   docs/24.ROS2-Voice Control Course.md
+   docs/25.AI Large Language Model Course (Overseas Version).md
