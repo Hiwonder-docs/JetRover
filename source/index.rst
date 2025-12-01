@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 ===========================
-JetArm & JetArm Pro (Jetson Nano Version)
+JetRover & JetRover Pro (Jetson Nano Version)
 ===========================
 
 .. toctree::
