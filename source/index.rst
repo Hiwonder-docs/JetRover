@@ -9,7 +9,7 @@ JetRover (Jetson Nano Version)
 
 .. toctree::
    :maxdepth: 2
-   :caption: Specification
+   :caption: JetRover (Jetson Nano Version)
 
    docs/1_Quick_Start_Guide.md
    docs/2_Basic_Development_Courses.md
