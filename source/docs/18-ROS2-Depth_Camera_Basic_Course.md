@@ -1,0 +1,613 @@
+# 18 ROS2-Depth Camera Basic Course
+
+## 18.1 Depth Camera Configuration
+
+> [!NOTE]
+>
+> **Note:**
+>
+> * This document uses Ubuntu 20.04 and ROS2 Foxy as examples for installation. The system and ROS versions should not be lower than Ubuntu 20.04 and ROS2 Foxy, as software versions below these are outdated. Using outdated software means you will not receive security and maintenance updates, and compatibility issues will pose significant challenges, potentially leading to unsolvable problems.
+>* Next, install ROS Foxy. Refer to "**Configuration and Testing Based on ROS2 in Linux**" in the same path as this document. This document will not provide further details on the aforementioned installations.
+
+### 18.1.1 Install and Configure ROS2
+
+The image file we provide is in the "**[6 Virtual Machines\ubuntu_ros2_humble]()**" folder, and the ROS2 environment is already configured. Users can refer to this section for a brief overview of the ROS2 system installation and environment setup.
+
+This tutorial must be used in a virtual machine. The camera functionality package is already configured on the robot, so please do not reconfigure it on the camera.
+
+### 18.1.2 Version Options
+
+Different versions of ROS2 are installed on different versions of Ubuntu. In this section, we will use the virtual machine with Ubuntu 20.04, which corresponds to ROS2 Foxy.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image4.png" style="width:500px"  />
+
+### 18.1.3 Check Ubuntu's Software and Update Sources
+
+1. Locate ‘System&Update’.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image5.png" style="width:500px" />
+
+2. Make sure to check the option for internet downloads and change the download source to the local region's source.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image6.png" style="width:500px" />
+
+### 18.1.4 Set Encoding Format
+
+1. Start the virtual machine, and press ‘**Ctrl+Alt+T**’ key to start the terminal.
+
+2. Input
+
+   ```py
+   sudo locale-gen en_US en_US.UTF-8
+   ```
+
+Set the Ubuntu locale to en_US.UTF-8. After entering the command, press Enter, then enter the virtual machine's password, "**hiwonder**" (users should enter the password they have set for their own virtual machine; in our case, the password is "**hiwonder**").
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image7.jpeg" style="width:500px"  />
+
+3. Run the command below and press Enter key to update the language environment.
+
+   ```py
+   sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
+   ```
+
+4. Enter the command, press Enter, and export the environment variables to take effect immediately.
+
+   ```py
+   export LANG=en_US.UTF-8
+   ```
+
+### 18.1.5 Set the Download Source for ROS2
+
+**1. Enable the Ubuntu Universe Repository**
+
+1. Enter the command to check if the Universe repository is enabled:
+
+   ```py
+   apt-cache policy | grep universe
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image10.jpeg" style="width:500px"  />
+
+2)  If the output is as follows, it indicates that it has been enabled, and you can proceed to configure it further in section 1.4.1.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image11.jpeg" style="width:500px"  />
+
+3)  If you see the following prompt, it means it has not been enabled.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image12.jpeg" style="width:500px"  />
+
+4. Enter the command to install the software package "**software-properties-common**":
+
+   ```py
+   sudo apt install software-properties-common
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image13.jpeg" style="width:500px"  />
+
+5. Enter the command to add the PPA to the Universe repository and automatically import the public key:
+
+   ```py
+   sudo add-apt-repository universe
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image14.jpeg" style="width:500px"  />
+
+6. You can enter the command again to check if it has been enabled:
+
+   ```py
+   apt-cache policy | grep universe
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image15.jpeg" style="width:500px"  />
+
+* **Update the software packages and install the curl and gnupg tools**
+
+1. Enter the command to update the software installation packages:
+
+   ```py
+   sudo apt update
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image16.jpeg" style="width:500px"  />
+
+2)  After the update is complete, it will appear as shown in the following image.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image17.jpeg" style="width:500px"  />
+
+3. Enter the command to install the curl and gnupg tools:
+
+   ```py
+   sudo apt install curl gnupg2 lsb-release
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image18.jpeg" style="width:500px"  />
+
+4)  During the installation process, if you see the prompt as shown in the following image, simply enter "y" and press Enter.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image19.jpeg" style="width:500px"  />
+
+5)  After the installation is complete, it will appear as shown in the following image:
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image20.jpeg" style="width:500px"  />
+
+* **Set the public key**
+
+Enter the following command:
+
+```py
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image21.jpeg" style="width:500px"  />
+
+If the following error appears, re-enter the command:
+
+```py
+curl http://repo.ros2.org/repos.key | sudo apt-key add -
+```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image22.png" style="width:500px" />
+
+* **Set Download Source**
+
+Enter the following command:
+
+```py
+sudo sh -c 'echo "deb [arch=$(dpkg --print-architecture)] http://packages.ros.org/ros2/ubuntu $(lsb_release -cs) main" > /etc/apt/sources.list.d/ros2-latest.list'
+```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image23.jpeg" style="width:500px"  />
+
+### 18.1.6 Install ROS2
+
+1. Enter the below command to update the software feature pack.
+
+   ```py
+   sudo apt update
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image24.jpeg" style="width:500px"  />
+
+2)  After the update is complete, it will appear as shown below.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image25.jpeg" style="width:500px"  />
+
+3. Run the below command:
+
+   ```py
+   sudo apt install ros-foxy-desktop
+   ```
+
+Press Enter. When prompted whether to install, type "y" and press Enter again. Wait for the download and installation to complete. Depending on your network conditions, this process may take about 10 minutes, so please be patient.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image26.jpeg" style="width:500px"  />
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image27.jpeg" style="width:500px"  />
+
+4)  After the installation is complete, it will appear as shown below.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image28.jpeg" style="width:500px"  />
+
+### 18.1.7 Install Additional Dependency
+
+1. Enter the command, press Enter, and input the virtual machine password "hiwonder" to install the autocomplete tool:
+
+   ```py
+   sudo apt install python3-argcomplete
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image29.jpeg" style="width:500px"  />
+
+2)  After the installation is complete, it will appear as shown below.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image30.jpeg" style="width:500px"  />
+
+3. Input the following command and hit Enter key to install the compilation tool. Then enter ‘y’ to confirm the installation.
+
+   ```py
+   sudo apt install python3-colcon-common-extensions
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image31.jpeg" style="width:500px"  />
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image32.jpeg" style="width:500px"  />
+
+4)  After the installation is complete, it will appear as shown below.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image33.jpeg" style="width:500px"  />
+
+### 18.1.8 Set Environment Variables
+
+Sequentially enter the following commands, pressing Enter after each one, to complete the environment variable setup:
+
+```py
+echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image34.jpeg" style="width:500px"  />
+
+### 18.1.9 Test ROS2 System
+
+1. Enter the command to run a talker.
+
+   ```py
+   ros2 run demo_nodes_cpp talker
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image35.jpeg" style="width:500px"  />
+
+2. Press "Ctrl+Alt+T" to open a new terminal, then enter the command to run a listener.
+
+   ```py
+   ros2 run demo_nodes_py listener
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image36.jpeg" style="width:500px"  />
+
+3)  Press "**Ctrl+C**" to stop the execution. If stopping fails, you can repeat pressing "Ctrl+C" multiple times until it stops.
+
+### 18.1.10 Network Configuration
+
+1. Open virtual machine <img src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image37.png" style="width:50px" />.
+
+2. Click-on **Edit** and choose **Virtual Network Editor**.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image38.png" style="width:500px" />
+
+3. Tick ‘**Bridged**’, and choose the corresponding wireless network card.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image39.png" style="width:500px" />
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image40.png" style="width:500px" />
+
+4. Select the imported virtual machine, then click on ‘**Power on this virtual machine**’.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image41.png" style="width:500px" />
+
+5. Click on <img src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image42.png" style="width:50px" /> to open terminal. Or press the short-cut ‘**Ctrl+Alt+t**’ to open the command-line terminal.
+
+6. Enter command to check whether the network connection is successful.
+
+   ```py
+   ping www.baidu.com
+   ```
+
+   If the terminal prints following content, that means network connection is successful.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image44.png" style="width:500px" />
+
+   If it shows that “**Name or service not known**”, that means virtual machine fails to connect to the network.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image45.png" style="width:500px" />
+
+7. Execute this step only when network connection is failed. Enter command “**ip a**” to check the ID of network card.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image46.png" style="width:500px"  />
+
+8. Execute this step only when network connection is failed. Enter command and press Enter. “**ens33**” is the ID of network card. You need to modify the entered command based to suit the specific case at hand.
+
+   ```py
+   sudo dhclient ens33
+   ```
+
+   Repeat step 6. If the terminal prints following content, that means network connection is successful.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image44.png" style="width:500px" />
+
+### 18.1.11 Install Dependency
+
+1. Run the command ‘**sudo apt update**’ to update apt library.
+
+   ```py
+   sudo apt update
+   ```
+
+After update, the following messages will occur.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image49.png" style="width:500px" />
+
+2. Input command to update apt library.
+
+   ```py
+   sudo apt update
+   ```
+
+3. The update is completed as shown in the following figure:
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image49.png" style="width:500px" />
+
+4. Enter the following commands to install the dependency library:
+
+   ```py
+   sudo apt install libgflags-dev nlohmann-json3-dev libgoogle-glog-dev \
+   ```
+
+   ```py
+   ros-$ROS_DISTRO-image-transport ros-$ROS_DISTRO-image-publisher ros-$ROS_DISTRO-camera-info-manager
+   ```
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image50.png" style="width:500px" />
+
+## 18.2 Construct Workspace
+
+1. Execute the command to build the workspace.
+
+   ```py
+   mkdir -p ~/ros_ws/src && cd ~/ros_ws/src
+   ```
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image51.png" style="width:500px" />
+
+2. Execute the command to compile the new workspace. Ensure that the compilation is performed within the '**ros_ws**' workspace.
+
+   ```py
+   colcon build
+   ```
+
+3. Run the command to set a new workspace.
+
+   ```py
+   . ./install/setup.bash
+   ```
+
+4. Enter the command to append the initialization action of environment variables to the terminal initialization file.
+
+   ```py
+   echo "source $HOME/ros_ws/install/setup.bash" >> ~/.bashrc
+   ```
+
+## 18.3 Install Depth Camera ROS SDK
+
+1)  Copy the file “**orbbec-ros-sdk.zip**” to the virtual machine.
+
+2)  Right-click the package and select ‘**Open**’.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image55.png" style="width:500px" />
+
+3)  Click on the folder and then click "**Extract**" to extract the folder into the workspace.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image56.png" style="width:500px" />
+
+The green box represents the workspace path. Click "**Extract**" to extract.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image57.png" style="width:500px" />
+
+4. Run the command to access the feature pack:
+
+   ```py
+   cd ~/ros_ws/src/OrbbecSDK_ROS2/orbbec_camera/scripts
+   ```
+
+5. Run the following command and hit Enter key, then input the password.
+
+   ```py
+   sudo bash install.sh
+   ```
+
+6. Enter the below command to reload the udev rule.
+
+   ```py
+   sudo udevadm control --reload-rules && sudo udevadm triggers
+   ```
+
+7. Run the command to navigate to the workspace:
+
+   ```py
+   cd ~/ros_ws/
+   ```
+
+8. Enter the command to recompile the workspace.
+
+   ```py
+   colcon build --event-handlers console_direct+ --cmake-args -DCMAKE_BUILD_TYPE=Release
+   ```
+
+9. Enter the command to set the new workspace environment variables.
+
+   ```py
+   . ./install/setup.bash
+   ```
+
+10. So far, we have completed the installation of the Depth Camera ROS2 SDK.
+
+## 18.4 Usage of Depth Camera
+
+### 18.4.1 Enable Camera Service
+
+1. Attach the depth camera to the computer and establish its connection with the virtual machine.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image64.png" style="width:500px" />
+
+2. Run the command to start the camera.
+
+   ```py
+   ros2 launch orbbec_camera dabai.launch.py
+   ```
+
+   We offer two approaches for image visualization. One option involves utilizing rqt_image_view to observe 2D images, while the alternative is to employ rviz for visualizing 3D images. Users are free to select the method that aligns with their particular needs. It is crucial to emphasize that during image viewing, the camera service should remain active and not be closed.
+
+### 18.4.2 View Image Using rqt_image_view Tool
+
+1)  Open a new terminal, and execute the command ‘rqt’ to start the image viewing tool.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image66.png" style="width:500px" />
+
+When the below interface appears, it means that the tool is started successfully.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image67.png" style="width:500px" />
+
+Select "**Plugins \> Visualization \> Image View**".
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image68.png" style="width:500px" />
+
+2. To view the infrared image, please select the corresponding topic.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image69.png" style="width:500px" />
+
+3. When viewing the depth map, the red box position needs to be set as shown in the following figure:
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image70.png" style="width:500px" />
+
+### 18.4.3 View Image Using rviz
+
+1. Execute the command to initiate the tool.
+
+   ```py
+   ros2 run rviz2 rviz2
+   ```
+
+When the below interface appears, it means that the tool is started successfully.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image72.png" style="width:500px" />
+
+2)  To access the camera feed, start by configuring the "**Fixed Frame**" to "**camera_link**." Then, click on "**Add**," select "**By topic -\> camera -\> color -\> Image_raw -\> Image**," and finally, click "**OK**."
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image73.png" style="width:500px" />
+
+When the interface below appears, it indicates that the tool has been successfully launched.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image74.png" style="width:500px" />
+
+3. To view the depth map, set ‘**Fixed Frame**’ as ‘**camera_link**’, then click-on ‘**Add**’ to select ‘**By topic -\>camera-\>depth-\>Image_raw-\>Image**’, and click-on ‘**OK**’.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image75.png" style="width:500px" />
+
+When the interface below appears, it indicates that the tool has been successfully launched.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image76.png" style="width:500px" />
+
+### 18.4.4 LDP Protection
+
+LDP protection," commonly known as "Lens Data Protection," safeguards the camera lens against accidental damage or interference in the realm of cameras. When utilizing the DaBai camera, if an object comes within a specified distance, DaBai will disable the infrared camera, and this distance is determined by the intensity of reflected light. Users have the flexibility to tailor the activation or deactivation of LDP protection according to their specific needs.
+
+1. Run the command to turn on the camera.
+
+   ```py
+   ros2 launch orbbec_camera dabai.launch.py
+   ```
+
+2. Open a new terminal, and execute the command ‘**rqt**’ to initiate the image viewing tool.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image66.png" style="width:500px" />
+
+   The appearance of the interface in the following image indicates successful opening.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image70.png" style="width:500px" />
+
+When the object reaches a certain distance from the camera, the depth map will transition to black.
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image77.png" style="width:500px" />
+
+3. Open a new command-line terminal, and execute the command to close LDP protection.
+
+   ```py
+   ros2 service call /camera/set_ldp_enable std_srvs/srv/SetBool data:\ false
+   ```
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image78.png" style="width:500px" />
+
+   At this stage, the image remains visible even as an object approaches the camera.
+
+4. Execute the command to initiate LDP protection.
+
+   ```py
+   ros2 service call /camera/set_ldp_enable std_srvs/srv/SetBool data:\ true
+   ```
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image79.png" style="width:500px" />
+
+   
+
+## 18.5 Data Type and Point Cloud
+
+### 18.5.1 Introduction to Point Cloud
+
+The things we observe with our eyes are three-dimensional, but in computer vision, using regular cameras only provides two-dimensional information about an object, which cannot achieve the same observation effect as human eyes. In order for computers to represent three-dimensional objects, computer vision needs to transition into three-dimensional vision, and point clouds are the way to express three-dimensional vision.
+
+### 18.5.2 Understanding Point Cloud Data Types
+
+Point cloud data refers to a collection of vectors in a three-dimensional coordinate system, typically expressed in the X, Y, and Z axes of the three-dimensional coordinate system. It is commonly used to represent the surface shape of an object. Point cloud data can also represent attributes such as RGB colors, grayscale values, depth, etc., of an object's surface.
+
+Robot point cloud data is acquired through LiDAR and depth cameras, both of which are capable of measurements.
+
+Common formats for storing point cloud data include pts, asc, dat, stl, imw, xyz, txt, csv, etc. Point cloud data, much like an attribute table, records the X, Y, Z positions of corresponding points along with various attributes associated with each point.
+
+### 18.5.3 Point Cloud
+
+* **Depth Camera Point Cloud**
+
+<img src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image80.png" style="width:50px" />**This step is performed on the robot, and when entering commands, it's important to strictly differentiate between uppercase and lowercase letters. You can also use the "Tab" key to autocomplete keywords.**
+
+1. Start the robot and connect to the Ubuntu desktop remotely using NoMachine.
+
+2. Click-on <img src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image81.png" style="width:50px" /> to open the ROS1 command-line terminal.
+
+3. Execute the below command and hit Enter key to disable the app auto-start service.
+
+   ```py
+   sudo systemctl stop start_app_node.service
+   ```
+
+4. Click-on <img src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image42.png" style="width:50px" /> to open the ROS2 command-line terminal.
+
+5. Open a new command-line terminal, and run the following command to open the point cloud view of the depth camera.
+
+   ```py
+   ros2 launch peripherals depth_camera.launch.py
+   ```
+
+6. Open a new command-line terminal and execute the below command to initiate rviz.
+
+   ```py
+   rviz2
+   ```
+
+7. Choose `depth_cam_link`.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image84.png" style="width:500px" />
+
+8. Click on "**Add**" as shown below, then select "**By topic**" -\> "**depth_cam**" -\> "**depth**" -\> "**points**" -\> "**pointCloud2**", and finally click "**OK**".
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image85.png" style="width:500px" />
+
+   Once you've completed the previous settings, the point cloud will become visible.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image86.png" style="width:500px" />
+
+* **Depth Camera Infrared Image**
+
+<img src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image80.png" style="width:50px" />When entering commands, it's important to strictly observe capitalization, and you can use the "Tab" key to autocomplete keywords.
+
+1. Start the robot, and access the ubuntu desktop using the software NoMachine.
+
+2. Click-on <img src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image81.png" style="width:50px" /> to open the ROS1 command-line terminal.
+
+3. Enter the command below and hit Enter key to disable the app auto-start service.
+
+   ```py
+   sudo systemctl stop start_app_node.service
+   ```
+
+4. Click-on <img src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image42.png" style="width:50px" /> to open the ROS2 command-line terminal.
+
+5. Open a new command prompt, enter the command to open the depth camera point cloud view:
+
+   ```py
+   ros2 launch peripherals depth_camera.launch.py
+   ```
+
+6. Open a new command-line terminal, then enter the command ‘rviz2’ to activate the tool rviz.
+
+7. Choose`depth_cam_link`.
+
+   <img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image84.png" style="width:500px" />
+
+8. Click on "**Add**" as shown below, then select "**By topic**" -\> "**depth_cam**" -\> "**ir**" -\> "**image_raw**" -\> "**image**", and finally click "**OK**".
+
+<img class="common_img" src="../_static/media/4/section_1_5 Depth Camera Basic Course/media/image87.png" style="width:500px" />
+
+The picture below will appear.
+
+<img class="common_img" src="C:/Users/Admin/Desktop/1/output/chapter_1\section_1_5 Depth Camera Basic Course/media/image88.png" style="width:500px" />
