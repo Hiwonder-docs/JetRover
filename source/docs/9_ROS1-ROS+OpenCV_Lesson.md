@@ -1,0 +1,1357 @@
+# 9 ROS1-ROS+OpenCV Lesson
+
+## 9.1 Color Threshold Adjustment
+
+The color of an object can change with the light sources, which can affect the functionality involved color recognition. To tackle this issue, this lesson will introduce you how to use LAB Tool to adjust the color threshold.
+
+### 9.1.1 Open/Close LAB TOOL
+
+> [!NOTE]
+>
+> **Note:**
+>
+> **The entered command should be case sensitive, and the “Tab” key can be used to complement key words.**
+>
+> **Please strictly follow the operation steps; otherwise, you will fail to open LAB tool.**
+
+1. Start JetRover and connect it to Nomachine remote connection software.
+
+2. Click on <img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image4.png" style="width:50px" />to open the command line terminal.
+
+3. Input the command “**sudo systemctl stop start_app_node.service**” and press Enter to disable app auto-start service.
+
+   ```py
+   sudo systemctl stop start_app_node.service
+   ```
+
+4. Input the command “**roslaunch hiwonder_peripherals depth_cam.launch**” and press Enter to enable the camera service.
+
+   <img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image6.png" style="width:500px" />
+
+5. Open a new terminal and input the command “**python3 /home/hiwonder/software/lab_tool/main.py**” to open LAB tool.
+
+   <img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image7.png" style="width:500px" />
+
+6. Regarding the interface button instructions and usage, you can refer to the following content. If you want to close it, please click on<img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image8.png" style="width:50px" /> and select “**Yes**” in the popup window.
+
+   <img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image9.png" style="width:400px" />
+
+7. After closing LAB tool, press “**Ctrl+C**” to close the terminal, and input the command “**sudo systemctl restart start_app_node.service**” to restart app auto-start service. After the service is enable, robot arm will restore the initial position.
+
+   ```py
+   sudo systemctl restart start_app_node.service
+   ```
+
+   > [!NOTE]
+   >
+   > Note: if you do not enable app auto-start service for the robot, it will affect the corresponding app functions. Restarting robot can also automatically enable the app auto-start service.
+
+### 9.1.2 LAB TOOL Interface Layout Instruction
+
+The interface of LAB tool software is divided into two parts: image display area and recognition adjustment area.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image11.png" style="width:500px" />
+
+1)  Image display area: the left displays the processed image and the right is the raw image.
+
+> [!NOTE]
+>
+> **Note: if the transmitted image does not display normally, it’s the issue of camera connection. In this case, you need to examine if the wiring is connected properly or reconnect it.**
+
+2)  Recognition adjustment area: adjust the color threshold. The function of each button refer to the following table:
+
+<table  class="docutils-nobg" style="margin:0 auto" border="1">
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 64%" />
+</colgroup>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>Icon</strong></td>
+<td style="text-align: center;"><strong>Function instruction</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;"><img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image12.png" style="width:300px" /></td>
+<td style="text-align: left;"><p>The sliders L, A and B are used respectively to adjust the values of the corresponding L, A and B components of the image.</p>
+<p>The sliders on the left are the “min” value for each component while the slider on the right are the “max” value for each component.</p></td>
+</tr>
+<tr>
+<td style="text-align: center;"><img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image13.png" style="width:150px" /></td>
+<td style="text-align: left;">Choose color to adjust the threshold.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image14.png" style="width:150px" /></td>
+<td style="text-align: left;">Delete the currently selected color.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image15.png" style="width:150px" /></td>
+<td style="text-align: left;">Add recognizable color.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image16.png" style="width:150px" /></td>
+<td style="text-align: left;">Save the adjustment result of the color threshold.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image17.png" style="width:150px" /></td>
+<td style="text-align: left;">Click on this button to swap Depth camera/monocular camera.</td>
+</tr>
+<tr>
+<td style="text-align: center;"><img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image18.png" style="width:150px" /></td>
+<td style="text-align: left;">Close LAB TOOL.</td>
+</tr>
+</tbody>
+</table>
+
+
+### 9.1.3 Adjust Color Threshold
+
+1)  Open LAN tool. Choose the color in the color drop-down list of color recognition area. Take a color “**red**” as example.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image19.png" style="width:300px" />
+
+2)  Adjust the “**min**” values of L, A and B components to “**0**”, the “**max**” values to “**225**”.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image20.png" style="width:500px" />
+
+3)  Place the target within the camera’s field of view. Adjust the values of L, A and B component towards the interval representing the target recognition color according to the LAB color space distribution chart.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image21.png" style="width:500px" />
+
+Red color is close to “**+a**”, which indicates that A component needs to be increased. Therefore, keep the “**max**” value of the A component unchanged and increase its “**min**” value until the object on the left turns white while other areas turn black.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image22.png" style="width:500px" />
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image23.png" style="width:500px" />
+
+4)  Adjust the L and B components according to your surroundings. If the red color is light, increase the “**min**” value of the L component; if it is dark, decrease the “**max**” value of the component. If the red color tends to be warm, increase the "**min**" value of the B component; if it tends to be cool, decrease the "**max**" value of the B component.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image24.png" style="width:500px" />
+
+The following table shows the parameter information of LAB threshold adjustment:
+
+| **Color component** | **Value Range** | **Corresponding Color Intervals** |
+| :-----------------: | :-------------: | :-------------------------------: |
+|          L          |      0~255      |        Black-white (-L~+L)        |
+|          A          |      0~255      |       green-red（-a ~ +a）        |
+|          B          |      0~255      |      Blue-yellow（-b ~ +b）       |
+
+5)  Click “**Save settings**” button in adjustment area to save the adjustment parameters.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image25.png" style="width:400px" />
+
+### 9.1.4 Add New Color 
+
+In addition to the built-in colors, users can add other recognition colors. Take an example of adding “**yellow**”.
+
+1)  Open LAB tool and click on “**add color**” button.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image26.png" style="width:300px" />
+
+2)  Fill in the "**name**" column with the color name, and click the "**OK**" button.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image27.png" style="width:400px" />
+
+3)  Choose the added color in the color drop-down menu.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image28.png" style="width:300px" />
+
+4)  Place the target within the camera's field of view, and adjust the threshold by dragging the L, A, and B component sliders until the area of the colored object within the left screen turns white, while the other areas turn black.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image29.png" style="width:500px" />
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image30.png" style="width:500px" />
+
+> [!NOTE]
+>
+> Note: the adjustment method of color threshold refers to “**[1.3 Adjust Color Adjustment]()**”.
+
+5)  Click “**Save settings**” button in recognition adjustment area to save the adjustment parameters of color threshold.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image31.png" style="width:500px" />
+
+## 9.2 Color Recognition
+
+This session will use OpenCV to perform red, green, blue recognition and display the recognition result through transmitted image. Before operations, please prepare one object of red, green and blue.
+
+### 9.2.1 Recognition Process
+
+Firstly, obtain the RGB image from the camera. Scale and apply Gaussian blur to the image. Convert the image from RGB to Lab. (For detailed explanations regarding the Lab color space, you can refer to OpenCV Basic Lesson.)
+
+Next, identify the object color in the circle by using color thresholds, followed by masking of the image portion. (masking is used to hide certain part of the processed image).
+
+After performing opening and closing operations on the object image, the object with the largest contour is circled.
+
+Open operations: erosion followed by dilation. Remove small objects, smooth the contours of object and keep its area unchanged. It can eliminate small noise and break thin connection between objects.
+
+Erosion: it can be used to remove small objects or features from an image, break thin connections between objects, and generally reduce the size of objects.
+
+Dilation: it is useful for filling in gaps between objects, joining nearby objects, and generally increasing the size of objects.
+
+Finally, the recognition results are displayed on the screen.
+
+### 9.2.2 Operation Steps 
+
+> [!NOTE]
+>
+> **Note: the entered command should be case sensitive and “Tab” key can be used to complement the key words.**
+
+1. Start JetRover and connect it to Nomachine.
+
+2. Click on <img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image4.png" style="width:50px" />to open the command line terminal.
+
+3. Input the command “**sudo systemctl stop start_app_node.service**” and press Enter to disable the app auto-start service.
+
+   ```py
+   sudo systemctl stop start_app_node.service
+   ```
+
+4. Input the command “**roscd hiwonder_example/scripts/color_detect && python3 color_detect_demo.py**” and press Enter to access the program directory where the color recognition program is located.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image33.png" style="width:600px" />
+
+5. If you want to close this program, press“Ctrl+C. If that fails, please try multiple times.
+
+   Input the command“**sudo systemctl restart start_app_node.service**” to enable app auto-start service. After the service is enable, robot arm will restore the initial position.
+
+   ```py
+   sudo systemctl restart start_app_node.service
+   ```
+
+   > [!NOTE]
+   >
+   > **Note: if you do not enable app auto-start service for the robot, it will affect the corresponding app functions. Restarting robot can also automatically enable the app auto-start service.**
+
+### 9.2.3 Outcome
+
+> [!NOTE]
+>
+> **Note: after the game starts, please ensure that there are no other objects containing recognized colors within the field of view of the camera to avoid affecting the implementation effect.**
+
+After the game starts, place the target object within the field of view of the camera. When recognizing the target object, it will be circled up in the same color and the color name will be printed in the lower-left corner of the screen. The program supports red, blue and green object recognition.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image34.png" style="width:500px" />
+
+### 9.2.4 Program Analysis
+
+The source code of the program is located in
+
+**/home/hiwonder/ros_ws/src/hiwonder_example/scripts/color_detect/color_detect_demo.py**
+
+```py
+range_rgb = {
+    'red': (0, 0, 255),
+    'blue': (255, 0, 0),
+    'green': (0, 255, 0),
+    'black': (0, 0, 0),
+    'white': (255, 255, 255),
+}
+
+def get_yaml_data(yaml_file):
+    yaml_file = open(yaml_file, 'r', encoding='utf-8')
+    file_data = yaml_file.read()
+    yaml_file.close()
+    
+    data = yaml.load(file_data, Loader=yaml.FullLoader)
+    
+    return data
+
+lab_data = get_yaml_data("/home/hiwonder/software/lab_tool/lab_config.yaml")
+```
+
+* **Basic Configuration**
+
+**1. Read Color Threshold Setting File**
+
+Obtain the configuration file of color threshold through **`get_yaml_data`** function.
+
+```py
+lab_data = get_yaml_data("/home/hiwonder/software/lab_tool/lab_config.yaml")
+```
+
+**2. Obtain the Image**
+
+Use the **VideoCapture** function to capture image from the camera to read the real-time transmitted image.
+
+```py
+if __name__ == '__main__':
+    cap = cv2.VideoCapture("/dev/depth_cam")
+```
+
+* **Image Processing**
+
+**1. Resize**
+
+Use the **`resize()`** function from the cv2 library to resize the image, aiming to to reduce the computational workload.
+
+```py
+frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
+```
+
+The first parameter “**img_copy**” within the parenthesis is the input image; the second parameter “**size**” represents the width and length of the image after scaling; the third parameter “**interpolat ion**” indicates the interpolation method, where “**cv2.INTER_NEAREST**” represents the nearest-neighbor interpolation method.
+
+**2. Gaussian Blur**
+
+Use the **`GaussianBlur()`** function from the cv2 library to apply Gaussian filtering to the image. The purpose of this step is to remove noise from the image.
+
+```py
+    frame_gb = cv2.GaussianBlur(frame_resize, (3, 3), 3)      
+```
+
+The first parameter “**frame_resize**” is the input image,
+
+The second parameter “**(3,3)**” is the size of Gaussian convolution kernel, where both the height and width of the convolution kernel must be positive and odd numbers.
+
+The third parameter “**3**” denotes the standard deviation of the Gaussian kernel in the horizontal direction.
+
+**3. Binaryization Processing**
+
+Use the **`inRange()`** function from the cv2 library to perform binary on the image.
+
+```py
+frame_mask = cv2.inRange(frame_lab, tuple(lab_data['lab']['Stereo'][i]['min']), tuple(lab_data['lab']['Stereo'][i]['max']))  #对原图像和掩模进行位运算
+```
+
+The first parameter “**frame_lab**” is the input image.
+
+The second parameter “**tuple(lab_data\['lab'\]\[i\]\['min'\])**” indicates the minimum value of the color threshold.
+
+The third parameter “**tuple(lab_data\['lab'\]\[i\]\['max'\])**” indicates the maximum value of the color threshold.
+
+When the RGB value of a pixel falls within the color threshold range, that point is assigned a value of “**1**”, otherwise, it is assigned a value of “**0**”.
+
+**4. Erosion & Dilation**
+
+Perform erosion and dilation operations on the image to smooth the contour edges within the image, facilitating the the subsequent search for target contours.
+
+```py
+eroded = cv2.erode(frame_mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  #腐蚀
+dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))) #膨胀
+```
+
+The `erode()` function is used to perform the erosion operation on the image. The parameters within the parentheses are as follow:
+
+The first parameter “**frame_mask**” represents the input image.
+
+The second parameter “**cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))**” determines the nature of the operation with the structuring elements or kernel, where the first parameter specifies the shape of the kernel and the second parameters represents the size of the kernel.
+
+**5. Obtain the Contour with the largest Area**
+
+By calling the **`findContours()`** function from the cv2 library, search for the largest contour of the target recognition color within the image.
+
+```py
+contours = cv2.findContours(dilated, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]  #找出轮廓
+```
+
+The first parameter “**dilated**” represents the input image.
+
+The second parameter “**cv2.RETR_EXTERNAL**” represents the contour retrieval mode.
+
+The third parameter “**cv2.CHAIN_APPROX_NONE**” represents contour approximation method.
+
+* **Feedback Action**
+
+**1. Circle the Target Object**
+
+Use the circle function to circle the target object on the image.
+
+```py
+cv2.circle(img, (centerX, centerY), radius, range_rgb[color_area_max], 2)#画圆
+```
+
+The connotation of parameters within the parentheses is as follow:
+
+The first parameter “**img**” represents the input image.
+
+The second parameter “**(centerX, centerY)**” is the center of the circle.
+
+The third parametr “**radius**” is the radius of the circle.
+
+The fourth parameter “**range_rgb\[color_area_max\]**” is the color of the circle.
+
+The fifth parameter “**2**” is the thickness of the drawn line.
+
+**2. Print the Color Name**
+
+Use the putText function to print the color name on the transmitted image.
+
+```py
+cv2.putText(img, "Color: " + detect_color, (10, img.shape[0] - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.65, draw_color, 2)
+```
+
+The connotation of the parameters in parenthesis is as follow:
+
+The first parameter “**image**” represents the input image.
+
+The second parameter “**"Color: " + detect_color**” represent the content to be printed.
+
+The third parameter “**(10, img.shape\[0\] - 10)**” specifies the position where the content is printed.
+
+The fourth parameter “**cv2.FONT_HERSHEY_SIMPLEX**” is the font of the text.
+
+The fifth parameter “**0.62**” is the size of the font.
+
+The sixth parameter “**draw_color**” is the color of the font.
+
+The seventh parameter “**2**” is the thickness of the font.
+
+## 9.3 Generate & Recognize QR Code
+
+This lesson is divided into two parts. The first part will introduce you how to learn to create a QR code, while the second part focuses on recognizing the created QR code and then decoding the QR code information through the terminal.
+
+### 9.3.1 Generate QR Code
+
+* **Process** 
+
+First, create an instance object of the QR code tool and set its detailed parameters.
+
+Next, obtain the user’s data and fill it into the QR code.
+
+Finally, generate a QR CODE image based on the data and display it in a window, and save it in the corresponding path.
+
+* **Operation Steps**
+
+> [!NOTE]
+>
+> **Note: the entered command should be case sensitive and the “Tab” key can be used to fill in key words.**
+
+1. Start JetRover and connect it to Nomachine.
+
+2. Click on <img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image4.png" style="width:50px" />to open the command line terminal.
+
+3. Input the command “**sudo systemctl stop start_app_node.service**” and press Enter to disable the app auto-start service.
+
+   ```py
+   sudo systemctl stop start_app_node.service
+   ```
+
+4. Input the command “**roscd hiwonder_example/scripts/qrcode && python3 qrcode_creater.py**” to access the program directory and start the QR code creation program.
+
+   After start the program, it’s necessary to enter characters in the terminal to generate the QR code. Take the input of “**hiwonder**” as example.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image45.png" style="width:500px" />
+
+Press “**Enter**” to display a QR code image containing the input data.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image46.png" style="width:300px" />
+
+5)  If need to close the program, press “**Ctrl+C**” in the terminal. If this fails, please try multiple times.
+
+6)  After closing the window, the saved content and its path are printed.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image47.png" style="width:500px" />
+
+7. The image can be located according to the path. Drag the image to the desktop of your computer using Nomachine tool. Then, print it out or transfer it to the phone album on the phone.
+
+   <img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image48.png" style="width:500px" />
+
+   After terminating the game, Input the command“**sudo systemctl restart start_app_node.service”**to enable app auto-start service. After the service is enabled, robot arm will restore the initial position.
+
+   > [!NOTE]
+   >
+   > Note: if you do not enable app auto-start service for the robot, it will affect the corresponding app functions. Restarting robot can also automatically enable the app auto-start service.
+
+   ```py
+   sudo systemctl restart start_app_node.service
+   ```
+
+* **Program Analysis**
+
+The source code of the program is located in
+
+**/home/hiwonder/ros_ws/src/hiwonder_example/scripts/qrcode/qrcode_creater.py**
+
+```py
+def create_qrcode(data, file_name):
+    '''
+    version：值为1~40的整数，控制二维码的大小（最小值是1，是个12×12的矩阵）。
+             如果想让程序自动确定，将值设置为 None 并使用 fit 参数即可。
+    error_correction：控制二维码的错误纠正功能。可取值下列4个常量。
+    　　ERROR_CORRECT_L：大约7%或更少的错误能被纠正。
+    　　ERROR_CORRECT_M（默认）：大约15%或更少的错误能被纠正。
+    　　ROR_CORRECT_H：大约30%或更少的错误能被纠正。
+    box_size：控制二维码中每个小格子包含的像素数。
+    border：控制边框（二维码与图片边界的距离）包含的格子数（默认为4，是相关标准规定的最小值）
+    '''
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_H,
+        box_size=5,
+        border=4)
+    # 添加数据
+    qr.add_data(data)
+    # 填充数据
+    qr.make(fit=True)
+    # 生成图片
+    img = qr.make_image(fill_color=(0, 0, 0), back_color=(255, 255, 255))
+    opencv_img = cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2BGR)
+    cv2.imshow('img', opencv_img)
+    cv2.waitKey(0)
+    cv2.imwrite(file_name, opencv_img)
+    print('save', data, file_name)
+if __name__ == '__main__':
+    file_path = os.getcwd()
+    out_img = file_path + '/myQRcode.jpg'
+    qrcode_text = input("Please enter：")
+    create_qrcode(qrcode_text, out_img)
+```
+
+**1. Create a QR Code Tool Object**
+
+Create the required object using the qrcode module and set the parameters of the QR code.
+
+```py
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_H,
+        box_size=5,
+        border=4)
+```
+
+The meaning of the parameters of the above function is as follow:
+
+The first parameter “**version**” is an integer value of 1-40, controlling the size of the QR code. If you want the program to determine it automatically, set the value to None and use the “fit” parameter.
+
+The second parameter “**error_correction**” controls the error correction level of the QR code, with the following options:
+
+1)  ERROR_CORRECT_L: about 7% or fewer errors can be corrected.
+
+2)  ERROR_CORRECT_M (default): About 15% or fewer errors can be corrected.
+
+3)  ERROR_CORRECT_H: About 30% or fewer errors can be corrected.
+
+The third parameter, "**box_size**," controls the number of pixels contained in each small square of the QR code.
+
+The fourth parameter, "**border**," controls the number of squares included in the border (the distance between the QR code and the image border). The default value is 4, which is the minimum value specified in the relevant standards.
+
+**2. Generate QR Code**
+
+Use the **`add_data`** and **make** functions to retrieve and fill data, then use the **`make_image`** function to generate the image.
+
+```py
+    # 添加数据
+    qr.add_data(data)
+    # 填充数据
+    qr.make(fit=True)
+    # 生成图片
+    img = qr.make_image(fill_color=(0, 0, 0), back_color=(255, 255, 255))
+```
+
+The parameters of the **make_image** function are as follows:
+
+The first parameter "**fill_color=(0, 0, 0)**" is the fill color of the image, which is black in this case.
+
+The second parameter "**back_color=(255, 255, 255)**" is the background color of the image, which is white in this case.
+
+**3. Display Image**
+
+Use the **cvtColor** function to convert the color space of the image, then use the **imshow** function to display it in a window.
+
+```py
+    opencv_img = cv2.cvtColor(np.asarray(img), cv2.COLOR_RGB2BGR)
+    cv2.imshow('img', opencv_img)
+    cv2.waitKey(0)
+```
+
+**4. Save Image**
+
+Use the **imwrite** function to save the generated QR code image and print the relative information.
+
+```py
+    cv2.imwrite(file_name, opencv_img)
+    print('save', data, file_name)
+```
+
+The parameters of the **imwrite** function are as follows:
+
+The first parameter "**file_name**" is the storage path of the image.
+
+The second parameter "**opencv_img**" is the image to be stored.
+
+### 9.3.2 QR Code Recognition 
+
+* **Program Logic**
+
+First, create an instance object for QR code detection, and pass in the required network structure and model weight files for detection.
+
+Then, retrieve the feed from the camera and perform detection.
+
+Finally, after recognizing the QR code, it will be outlined and the content of the QR code will be printed.
+
+The source code of the program is located in
+
+**/home/hiwonder/ros_ws/src/hiwonder_example/scripts/qrcode/qrcode_detecter.py**
+
+```py
+MODEL_PATH = os.path.join(os.path.split(os.path.realpath(__file__))[0], 'opencv_3rdparty')
+model1 = os.path.join(MODEL_PATH, 'detect.prototxt')
+model2 = os.path.join(MODEL_PATH, 'detect.caffemodel')
+model3 = os.path.join(MODEL_PATH, 'sr.prototxt')
+model4 = os.path.join(MODEL_PATH, 'sr.caffemodel')
+
+detect_obj = cv2.wechat_qrcode_WeChatQRCode(model1, model2, model3, model4)
+
+cap = cv2.VideoCapture("/dev/depth_cam")
+#cap = cv2.VideoCapture("/dev/usb_cam")
+print('\n******Press any key to exit!******')
+fps = fps.FPS()
+while cap.isOpened():
+    ret, img = cap.read()
+    if ret:
+        res, points = detect_obj.detectAndDecode(img)
+        if res != ():
+            print('result:', res)
+        for pos in points:
+            color = (0, 0, 255)
+            thick = 3
+            for p in [(0, 1), (1, 2), (2, 3), (3, 0)]:
+                start = int(pos[p[0]][0]), int(pos[p[0]][1])
+                end = int(pos[p[1]][0]), int(pos[p[1]][1])
+                cv2.line(img, start, end, color, thick)
+        fps.update()
+        result_image = fps.show_fps(img)
+        cv2.imshow('qrcode_detect', result_image)
+        key = cv2.waitKey(1)
+        if key != -1: 
+            break
+```
+
+* **Operation Steps**
+
+> [!NOTE]
+>
+> **Note: the entered command should be case sensitive and the “Tab” key can be used to fill in key words.**
+
+1. Start JetRover and connect it to Nomachine.
+
+2. Click on <img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image4.png" style="width:50px" />to open the command line terminal.
+
+3. Input the command “**sudo systemctl stop start_app_node.service**” and press Enter to disable the app auto-start service.
+
+   ```py
+   sudo systemctl stop start_app_node.service
+   ```
+
+4. Input the command “**roscd hiwonder_example/scripts/qrcode && python3 qrcode_detecter.py**” and press Enter to access the program direction and start the QR code recognition program.
+
+   ```py
+   roscd hiwonder_example/scripts/qrcode && python3 qrcode_detecter.py
+   ```
+
+If you want to close this program, press“**Ctrl+C**. If that fails, please try multiple times.
+
+Input the command“**sudo systemctl restart start_app_node.service**” to enable app auto-start service. After the service is enable, robot arm will restore the initial position.
+
+Note: if you do not enable app auto-start service for the robot, it will affect the corresponding app functions. Restarting robot can also automatically enable the app auto-start service.
+
+```py
+sudo systemctl restart start_app_node.service
+```
+
+* **Outcome**
+
+After the game starts, the QR code image appearing in the feed, mark them with a red rectangular box, and print out the content of the QR code.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image57.png" style="width:500px" />
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image58.png" style="width:500px" />
+
+* **Program Analysis**
+
+**1. Create QR Code Detection Object**
+
+Use the `wechat_qrcode_WeChatQRCode` module to create the required object. The Wechat QR code engine used by this module is based on the open-source ZXing engine. It is a highly optimized and deeply modified high-performance lightweight QR code recognizer.
+
+```py
+MODEL_PATH = os.path.join(os.path.split(os.path.realpath(__file__))[0], 'opencv_3rdparty')
+model1 = os.path.join(MODEL_PATH, 'detect.prototxt')
+model2 = os.path.join(MODEL_PATH, 'detect.caffemodel')
+model3 = os.path.join(MODEL_PATH, 'sr.prototxt')
+model4 = os.path.join(MODEL_PATH, 'sr.caffemodel')
+
+detect_obj = cv2.wechat_qrcode_WeChatQRCode(model1, model2, model3, model4)
+```
+
+The parameters for the **`wechat_qrcode_WeChatQRCode()`** function are as follows:
+
+The first parameter, "**model1**" is the weight file for the detection model.
+
+The second parameter "**model2**" is the Caffe framework model required for detection.
+
+The third parameter "**model3**" is the weight file for the super-resolution model.
+
+The fourth parameter "**model4**" is the Caffe framework model required for the super-resolution model.
+
+**2. Capture the Camera Image**
+
+Capture the image from the camera through the **`VideoCapture()`** function.
+
+```py
+cap = cv2.VideoCapture("/dev/depth_cam")
+```
+
+**3. Recognize the QR Code**
+
+Recognize the QR code on the image through the **detectAndDecod** function.
+
+```py
+res, points = detect_obj.detectAndDecode(img)
+```
+
+The first return value **"res**" is the data contained within the QR code, and the second return value "**points**" represents the position points of the QR code.
+
+**4. Mark the QR Code**
+
+Use the **`line()`** function to make the QR code on the image.
+
+```py
+			for p in [(0, 1), (1, 2), (2, 3), (3, 0)]:
+                start = int(pos[p[0]][0]), int(pos[p[0]][1])
+                end = int(pos[p[1]][0]), int(pos[p[1]][1])
+                cv2.line(img, start, end, color, thick)
+```
+
+The parameters for **the `line()`** function are as follows:
+
+The first parameter "**img**" is the image on which to draw the line.
+
+The second parameter "**start**" is the starting point of the line segment.
+
+The third parameter "**end**" is the ending point of the line segment.
+
+The fourth parameter "**color**" specifies the color of the line.
+
+The fifth parameter "**thick**" specifies the thickness of the line.
+
+**5. Display the Marked Image**
+
+Display the annotated image using the **`imshow()`** function.
+
+```py
+cv2.imshow('qrcode_detect', result_image)
+```
+
+## 9.4 AprilTag Recognition
+
+Before starting this game, extract the AprilTag package under the same directory. Then you can transfer the tag image to the photo album on your phone.
+
+In this lesson, OpenCV is used to recognize AprilTag, and the transmitted image will display the recognized tag information,
+
+AprilTag, a type of visual localization marker, similar to QR codes or bar codes can quickly detect the maker and calculate relative positions. It can be primarily applied in various tasks, including AR, robotics and camera calibration.
+
+### 9.4.1 Program Logic
+
+First, subscribe to the topic messages published by the camera node to obtain RGB images and process them by converting to grayscale and scaling.
+
+Next, acquire tag data including tag ID, and coordinates of tag center point and corners.
+
+Finally, perform camera calibration to provide feedback on tag recognition result through the transmitted image.
+
+### 9.4.2 Operation Steps
+
+> [!NOTE]
+>
+> **Note: the entered command should be case sensitive and the “Tab” key can be used to fill in key words.**
+
+1. Start JetRover and connect it to Nomachine.
+
+2. Click on <img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image4.png" style="width:50px" />to open the command line terminal.
+
+3. Input the command “**sudo systemctl stop start_app_node.service**” and press Enter to disable the app auto-start service.
+
+   ```py
+   sudo systemctl stop start_app_node.service
+   ```
+
+4. Input the command “**roslaunch hiwonder_example apriltag_detect_demo.launch**”
+
+   ```py
+   roslaunch hiwonder_example apriltag_detect_demo.launch
+   ```
+
+> [!NOTE]
+>
+> **Note: if an error occurs, try a few more times.**
+>
+> **Due to the loading of rviz (a 3D visualization platform), the startup may take some time, please be patient.**
+
+5. If you want to close this program, press“Ctrl+C. If that fails, please try multiple times.
+
+   Input the command“**sudo systemctl restart start_app_node.service**” to enable app auto-start service. After the service is enable, robot arm will restore the initial position.
+
+   > [!NOTE]
+   >
+   > Note: if you do not enable app auto-start service for the robot, it will affect the corresponding app functions. Restarting robot can also automatically enable the app auto-start service.
+
+   ```py
+   sudo systemctl restart start_app_node.service
+   ```
+
+### 9.4.3 Outcome
+
+After the game starts, place No.1 tag with the field of view of the camera.
+
+The RIVZ tool will display the transmitted image on the left bottom corner. When the tag is recognized, tag ID will be printed in the center of the tag on the image, and the colored line will outline the four edges of the tag.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image65.png" style="width:500px"  />
+
+### 9.4.4 Extension Function - ID Recognition
+
+> [!NOTE]
+>
+> **Reminder: AprilTag package can be located under the same directory. You need extract the package and transfer it to the photo album on your phone.**
+
+By default, the program can identify No.1, No.2 or No.3 tags. Therefore, if you need to modify the configuration file, you can refer to the below example of adding No.4 tag. The detailed operation steps are as follow:
+
+1. Start JetRover and connect it to Nomachine.
+
+2. Click on <img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image4.png" style="width:50px" />to open the command line terminal.
+
+3. Input the command “**roscd hiwonder_example/config/**” and press Enter to access the configuration directory.
+
+   ```py
+   roscd hiwonder_example/config/
+   ```
+
+4. Input the command “**roscd hiwonder_example/config/**” to open the configuration file.
+
+   ```py
+   roscd hiwonder_example/config/
+   ```
+
+5)  Locate the code shown in the below red box:
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image67.png" style="width:500px" />
+
+6. Use the arrow keys to move the cursor position to the front of the 26<sup>th</sup> line, and then type “1yy”. (“1” indicates copying one line, and you can input the number of lines you want to copy. For example, to copy five lines, type “**5yy**”.)
+
+   <img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image68.png" style="width:500px" />
+
+7. Then adjust the cursor to the end of the 26th line and press “**p**”.
+
+   <img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image69.png" style="width:500px" />
+
+   <img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image70.png" style="width:500px" />
+
+8. Press the “i” key to switch the cursor to the 26th line and add a comma at the end of line 26 (Note: ensure it’s English punctuation), and then switch to line 27. Modify “id” to “4” while keeping “size” unchanged. The result should be as follows:
+
+   <img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image71.png" style="width:500px" />
+
+9. After the modification is complete, press “Esc” and input “**:wq**” to save and close the file. Then follow the operations in “**[9.4.2 Operation Steps]()**” to restart the program.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image72.png" style="width:500px" />
+
+10) After restarting the program, its effect is shown below:
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image73.png" style="width:500px" />
+
+## 9.5 AR Vision
+
+In this lesson, we will use OpenCV to recognize AR card and display AR visual identification image in the “**Camera**” window of rivz (a 3D visualization platform).
+
+Augmented Reality is a technology that involves real-time computation of the position and orientation of camera images, supplemented with corresponding images, videos, and 3D models. It overlays virtual elements onto the real world on a screen, enabling direct interaction between the two.
+
+> [!NOTE]
+>
+> **Note: before the game starts, it’s necessary to locate the AR vision image under the same directory, and print them out.**
+
+### 9.5.1 Program Logic
+
+First, subscribe to the topic messages published by the camera node to obtain RGB images, and process them by greyscale and scaling.
+
+Next, detect the tag and obtain the tag data such as tag ID and coordinates of tag center and corners.
+
+Finally, perform model projection and polygon filling operations to draw three-dimensional images at specified positions in the image.
+
+### 9.5.2 Operation Steps
+
+> [!NOTE]
+>
+> **Note: the entered command should be case sensitive and the “Tab” key can be used to fill in key words.**
+
+1. Start JetRover and connect it to Nomachine.
+
+2. Click on <img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image4.png" style="width:50px" />to open the command line terminal.
+
+3. Input the command “**sudo systemctl stop start_app_node.service**” and press Enter to disable the app auto-start service.
+
+   ```py
+   sudo systemctl stop start_app_node.service
+   ```
+
+4. Input the command “**roslaunch hiwonder_example ar_detect_demo.launch**” to start the game.
+
+   ```py
+   roslaunch hiwonder_example ar_detect_demo.launch
+   ```
+
+> [!NOTE]
+>
+> **Note: if an error occurs, try a few more times.**
+>
+> **Due to the loading of rviz (a 3D visualization platform), the startup may take some time, please be patient.**
+
+6. If you want to close this program, press“Ctrl+C. If that fails, please try multiple times.
+
+   Input the command“**sudo systemctl restart start_app_node.service**” to enable app auto-start service. After the service is enable, robot arm will restore the initial position.
+
+   > [!NOTE]
+   >
+   > Note: if you do not enable app auto-start service for the robot, it will affect the corresponding app functions. Restarting robot can also automatically enable the app auto-start service.
+
+   ```py
+   sudo systemctl restart start_app_node.service
+   ```
+
+### 9.5.3 Outcome
+
+The “**Image**” window in the RVIZ tool is used to display the transmitted image, while the “**Camera**” window is used to display the AR visual identification. On the left side of the tool interface is the RVIZ model display area.
+
+After the game starts, place the AR card image within the camera’s field of view. In the “**Camera**” window, the corresponding AR visual effect for each image will be displayed. The model display area will provide feedback on the angle and position of the images.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image75.png" style="width:500px" />
+
+## 9.6 Line Following
+
+> [!NOTE]
+>
+> Note: this section is only for program analysis only. For hands-on experience, please refer to “**[1. Quick Start Guide]()**”.
+
+### 9.6.1 File Path
+
+The corresponding program file is located in:
+
+**/ros_ws/src/hiwonder_app/scripts/line_following.py**
+
+### 9.6.2 Outcome
+
+The realization effect of this game is shown below. After selecting the color of the target line on the app, JetRover will move along with the track line.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image76.jpeg" style="width:500px"  />
+
+### 9.6.3 Program Analysis
+
+> [!NOTE]
+>
+> **Note: it’s necessary to back up the original program file before making any modification to the program. You’re forbidden to modify the original source code file to avoid causing robot malfunctions that may be irreparable due to incorrect parameter modifications!**
+
+According to the game’s effect, the process logic of this game is summarized as shown in the following diagram:
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image77.png" style="width:500px"  />
+
+Subscribe to the topic messages published by the camera node to obtain RGB images. From the image, identify and select the target line. Determine the color threshold by picking the color of the line. Based on the line's color information, extract the features of the line for line following. Calculate the robot's offset relative to the line's position in the field of view. Control the robot to move along the line segment, continuously correcting its position to keep the line at the center of the field of view and use lidar to detect obstacles and avoid them.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image78.png" style="width:500px"  />
+
+Then, the color picker object is defined (used in the gameplay to pick colors), along with the setting of additional Lidar obstacle avoidance functionality. Next is the implementation of the LineFollower class, which mainly includes functions for image preprocessing and logic for line following.
+
+The initialization function **(\_\_init\_\_(self, name))** involves setting up relevant parameters.
+
+The program begins with the initialization function within the **LineFollowingNode** class, defining some basic parameters. You need to primarily keep eyes on the **color threshold ratio, stop limit parameters, and angle swing parameters**. All relevant parameters and definitions involved in this section are within the **LineFollowingNode** class, as shown in the diagram below:
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image79.png" style="width:500px" />
+
+**1. Setting the Color Threshold Ratio Parameter (self.threshold)**
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image80.png" style="width:300px" />
+
+The **`self.threshold`** function is primarily used to set the weighting ratio for color processing to produce a binary image during color picking. It is called through the initialization function of the **LineFollower** class, as shown in the following diagram:
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image81.png" style="width:500px" />
+
+The above initialization function directly calls the **self.threshold** parameter, setting the minimum and maximum color range for the **target_color**, used for subsequent binarization operations. To achieve better recognition and processing results, the parameters here can remain at their defaults.
+
+**2. Stop Limit Settings（self.stop_threshold）：**
+
+```py
+self.stop_threshold = 0.4
+```
+
+The **`self.stop_threshold`** is used for determining the stopping behavior of the car, as shown in the diagram below:
+
+```py
+        if min_dist_left < self.stop_threshold or min_dist_right < self.stop_threshold:
+            self.stop = True
+```
+
+The above code block is used to determine when the car should stop. **min_dist_left** and **min_dist_right** calculate the distances from the car's left and right sides, respectively. When these two distances are less than the set parameter for the stopping threshold, **self.stop** is set to True, causing the car to stop moving.
+
+**3. Angle Swing Range Settings (self.scan_angle):**
+
+```py
+self.scan_angle = math.radians(45)
+```
+
+The **`Self.scan_angle`** represents the swing angle of the car during line tracking, set within a 45°range. This angle parameter can provide a good balance between effective line tracking and a comprehensive scanning range. Increasing this parameter will result in larger swings of the car, while decreasing it will have the opposite effect. However, the recognition effectiveness may not be optimal.
+
+**4. The definition of the color picker (set_target_color_srv_callback)**
+
+The color picker serves as a tool equivalent to the color picking function in the app. It is defined using the **`set_target_color_srv_callback`** function, as shown in the diagram below:
+
+```py
+    def set_target_color_srv_callback(self, req: SetPointRequest):
+        rospy.loginfo("set_target_color")
+        with self.lock:
+            x, y = req.data.x, req.data.y
+            self.follower = None
+            if x == -1 and y == -1:
+                self.color_picker = None
+            else:
+                self.color_picker = ColorPicker(req.data, 20)
+                self.mecanum_pub.publish(geo_msg.Twist())
+        return SetPointResponse(success=True)
+```
+
+**`self.color_picker`** is the definition of the color picker. In the **ColorPicker** function, **req.data** represents the position of the picked point. The data frame length sent is 20. The function returns feedback information after setting the point.
+
+**5. Lidar Obstacle Avoidance（lidar_callback）:**
+
+During line following, the Lidar obstacle avoidance function is also implemented. The specific implementation is in the **`lidar_callback`** function, as shown in the diagram below:
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image86.png" style="width:500px" />
+
+The portion outlined in red indicates the setting of the Lidar scanning range. Different scanning ranges are set based on different Lidar types. The parameters here can remain at their defaults.
+
+The portion outlined in blue represents the processing of point cloud data on the left and right sides. 'Angle' denotes the boundary between left and right scanning ranges. `Angle_index` handles the coordinates of the point cloud data, where `angle_increment`  is the angle increment of the Lidar scan. `Left_range` and `right_range` represent the point cloud data on the left and right sides, respectively. The parameters here can remain at their defaults.
+
+The portion outlined in green indicates the logical judgment of the distance between the scanned point cloud data and obstacles in relation to the stopping threshold. If the distance is less than the stopping threshold, 'self.stop' is set to True to stop the car. Otherwise, logical judgment is performed every 5 frames of data (self.count \> 5).
+
+**6. LineFollower class**
+
+LineFollower is a class representing the line following result, containing key elements of the game. It mainly focuses on two aspects: image preprocessing function and line following logic judgment.
+
+**7. Image preprocessing function (LineFollower initialization function)**
+
+In the program file, locate the **LineFollower class**, whose initialization function includes the image preprocessing part (color space conversion, Gaussian blur denoising, binarization, erosion, and dilation), as shown in the diagram below.
+
+```py
+            img_lab = cv2.cvtColor(blob, cv2.COLOR_RGB2LAB)  # rgb转lab(convert rgb into lab)
+            img_blur = cv2.GaussianBlur(img_lab, (3, 3), 3)  # 高斯模糊去噪(perform Gaussian filtering to reduce noise)
+            mask = cv2.inRange(img_blur, tuple(target_color[1]), tuple(target_color[2]))  # 二值化(image binarization)
+            eroded = cv2.erode(mask, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  # 腐蚀(corrode)
+            dilated = cv2.dilate(eroded, cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3)))  # 膨胀(dilate)
+```
+
+The cvtColor function converts the RGB image into a LAB image, reducing the interference of light. Gaussian blur denoising reduces noise on the image. The parameter (3, 3) represents the size of the noise convolution kernel, which can be kept as default here. cv2.inRange creates a binary image, presenting the main body of the image (line tracking trajectory) in black and white. Subsequent erosion and dilation are used to eliminate spots from the filtered image, obtaining a clearer line following trajectory. If the recognition effect is not particularly ideal, the parameters for erosion and dilation can be adjusted appropriately. However, specific parameter modifications should be based on the morphological operations of erosion and dilation as explained in the OpenCV basic lesson.
+
+**8. Changing the style of circle center drawing:**
+
+```py
+# 线的中心点(center point of the line)
+line_center_x, line_center_y = (pt1_x + pt3_x) / 2, (pt1_y + pt3_y) / 2
+
+cv2.circle(result_image, (int(line_center_x), int(line_center_y)), 5, (0, 0, 255), -1)   # 画出中心点(draw the center point)
+```
+
+`line_center_x` and `line_center_y` are the calculated center points.
+
+cv2.circle is the function in OpenCV used to draw the circle center. The parameter 5 represents the radius of the circle center. Increasing this value will increase the radius of the drawn circle center. (0, 0, 255) represents the BGR color code, indicating the color of the drawn line. In this case, it is green. If changed to (255, 0, 0), the color will be changed to red. The value -1 indicates that the circle center is solid.
+
+**9. Line tracking line logic judgment:**
+
+Within the **LineFollower** initialization function, the calculated line angle will be returned as shown in the diagram below:
+
+```py
+center_pos = centroid_sum / self.weight_sum  # 按比重计算中心点(calculate the center point according to the ratio)
+deflection_angle = -math.atan((center_pos - (w / 2.0)) / (h / 2.0))   # 计算线角度(calculate the line angle)
+```
+
+'**`defection_angle`**' is the calculated line tracking angle, where `math.atan` is the arctangent function, and `center_pos` represents the position of the center point of the line tracking block. '(w/2.0)/(h/2.0)' denotes the center point of the image.
+
+## 9.7 KCF Object Tracking
+
+This section will use the KCF algorithm to track the target selected by the mouse, enabling the depth camera on the robotic pan-tilt to follow the moving target object.
+
+### 9.7.1 KCF Introduction
+
+KCF (Kernel Correlation Filter) is a tracking algorithm proposed by Joao F. Henriques, Rui Caseiro, Pedro Martins, and Jorge Batista in 2014.
+
+KCF is a discriminative tracking method that utilizes circular matrices around the target area to collect positive and negative samples. It trains a target detector and uses it to check whether the predicted position in the next frame is the target. Then, it updates the training set based on the new detection results, thereby updating the target detector.
+
+### 9.7.2 Program Logic
+
+First, construct a tracker based on the OpenCV KCF target tracking algorithm and subscribe to topic messages to obtain real-time images from the camera.
+
+Then, using a mouse callback function, select the tracking target within the returned image, and utilize the tracker to obtain its real-time position information. Update the target position using the PID algorithm.
+
+### 9.7.3 Operation Steps
+
+> [!NOTE]
+>
+> **Note: the entered command should be case sensitive and the “Tab” key can be used to fill in key words.**
+
+1. Start JetRover and connect it to Nomachine.
+
+2. Click on <img src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image4.png" style="width:50px" />to open the command line terminal.
+
+3. Input the command “**sudo systemctl stop start_app_node.service**” and press Enter to disable the app auto-start service.
+
+   ```py
+   sudo systemctl stop start_app_node.service
+   ```
+
+4. Input the command “**roslaunch hiwonder_example object_tracking.launch**” and press Enter to start the game.
+
+   ```py
+   roslaunch hiwonder_example object_tracking.launch
+   ```
+
+5. After the game starts, place the object to be tracked within the field of view of the camera, and use the left mouse button to select it within the returned image.
+
+6. If you want to close this program, press“Ctrl+C. If that fails, please try multiple times.
+
+   Input the command“**sudo systemctl restart start_app_node.service**” to enable app auto-start service. After the service is enable, robot arm will restore the initial position.
+
+   > [!NOTE]
+   >
+   > Note: if you do not enable app auto-start service for the robot, it will affect the corresponding app functions. Restarting robot can also automatically enable the app auto-start service.
+
+   ```py
+   sudo systemctl restart start_app_node.service
+   ```
+
+### 9.7.4 Outcome
+
+After the game starts, place the target object to be tracked within the field of view of the camera, and use the left mouse button to select it within the returned image. During the selection process, the selected area will be highlighted with a blue rectangle within the returned image. Releasing the left mouse button indicates the completion of the selection, and the rectangle will turn green.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image91.png" style="width:500px" />
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image92.png" style="width:500px" />
+
+> [!NOTE]
+>
+> **Note: When selecting the target, ensure that the selection box encompasses the target itself and not the background behind it, as this could significantly affect the gameplay effectiveness.**
+
+At this point, when you move the tracking target, the robot’s pan-tilt will follow its movement. Additionally, the green rectangle within the returned image will move accordingly with the tracking target.
+
+If you need to re-select the tracking target, simply right-click within the returned image to clear the selection, and then repeat the above selection process.
+
+### 9.7.5 Program Analysis
+
+The corresponding program is located in
+
+**/ros_ws/src/hiwonder_example/scripts/tracker/object_tracking.py**
+The effect achieved in this section is shown in the figure below. After selecting the object in the returned image, the depth camera on the car follows the recognized object for tracking.
+
+> [!NOTE]
+>
+> **Note: it’s necessary to back up the original program file before making any modification to the program. You’re forbidden to modify the original source code file to avoid causing robot malfunctions that may be irreparable due to incorrect parameter modifications!**
+
+According to the game's effects, the process logic of this game is summarized as shown in the diagram below:
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image93.png" style="width:500px"  />
+
+Subscribe to the topic messages published by the camera node to obtain RGB images, and use the left mouse button to select the target object within the returned image. During the selection process, the selected area will be highlighted with a blue rectangle within the returned image. Releasing the left mouse button indicates the completion of the selection, and the rectangle will turn green.
+
+> [!NOTE]
+>
+> **Note: When selecting the target, ensure that the selection box encompasses the target itself and not the background behind it, as this could significantly affect the gameplay effectiveness.**
+
+At this point, when tracking the target, the camera on the robot's pan-tilt will move accordingly. Additionally, the green box in the transmitted image will move along with the tracking target.
+
+To re-select the tracking target, right-click within the image to clear it, and then repeat the above selection process.
+
+The logical flowchart of the program, derived from the program files, is shown in the diagram below.
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image94.png" style="width:500px"  />
+
+The initialization function is used to define some preset parameters, such as the mouse tracking area, servo angle range setting, and the definition of the target detector object. These parameters can affect the final recognition effect. After setting up the basic parameters, it's necessary to detect mouse events, record relevant mouse actions in the image, such as left-click, mouse drag, mouse release, right-click to clear, etc. Based on the mouse actions, select the area, use the detector to detect the target object, calculate the object's angle and position information, and then have the pan-tilt track the object.
+
+* **Initialization Function（init\_\_(self, name) )**
+
+**1. Basic Parameter Setup**:
+
+The program starts with the initialization function within the **KCFNode** class, defining some basic parameters. The main parameters of interest include the mouse tracking area, servo angle range setting, and the definition of the target detector object. All relevant parameters and definitions involved in this section are within the KCFNode class, as shown in the diagram below:
+
+<img class="common_img" src="../_static/media/3/section_78_ROS+OpenCV Lesson/media/image95.png" style="width:500px" />
+
+**2. Mouse Tracking Area（self.selection ）:**
+
+```py
+self.selection = None 
+```
+
+**self.selection** is used to store the selected area, i.e., after the user draws a rectangle, it temporarily stores the coordinates of the four corner points of the selected area. These coordinates are used for drawing and tracking the target image.
+
+**3. Target Detector Object (self.tracker)**
+
+```py
+self.tracker = cv2.legacy.TrackerMedianFlow_create()
+```
+
+**`self.tracker`** is the definition of the target tracking object detector. legacy.trackerMedianFlow_create is a multi-object tracker in OpenCV. It has separate multi-object tracking functionality, allowing images to be passed into the detector for detection and returning coordinate position messages of the target results.
+
+* **Mouse Event Callback Function（onmouse()）**
+
+In the game, the code implementing the functionality of selecting regions on the transmitted image using the mouse is contained within the onmouse() function, as shown in the diagram below. It includes actions such as left-click, mouse drag, mouse release, and right-click to clear.
+
+```py
+    def onmouse(self, event, x, y, flags, param):   
+        if event == cv2.EVENT_LBUTTONDOWN:       #鼠标左键按下
+            self.mouse_click = True
+            self.drag_start = (x, y)       #鼠标起始位置
+            self.track_window = None
+        if self.drag_start:       #是否开始拖动鼠标，记录鼠标位置
+            xmin = min(x, self.drag_start[0])
+            ymin = min(y, self.drag_start[1])
+            xmax = max(x, self.drag_start[0])
+            ymax = max(y, self.drag_start[1])
+            self.selection = (xmin, ymin, xmax, ymax)
+        if event == cv2.EVENT_LBUTTONUP:        #鼠标左键松开
+            self.mouse_click = False
+            self.drag_start = None
+            self.track_window = self.selection
+            self.selection = None
+            roi = self.depth_frame[self.track_window[1]:self.track_window[3], self.track_window[0]:self.track_window[2]]
+            try:
+                roi_h, roi_w = roi.shape
+                if roi_h > 0 and roi_w > 0:
+                    roi_cut = [1/3, 1/3]
+                    if roi_w < 100:
+                        roi_cut[1] = 0
+                    if roi_h < 100:
+                        roi_cut[0] = 0
+                    roi_distance = roi[int(roi_h*roi_cut[0]):(roi_h - int(roi_h*roi_cut[0])), 
+                            int(roi_w*roi_cut[1]):(roi_w - int(roi_w*roi_cut[1]))]
+                    self.distance = int(np.mean(roi_distance[np.logical_and(roi_distance>0, roi_distance<30000)])/10)
+                else:
+                    self.distance = self.DISTANCE
+            except:
+                self.distance = self.DISTANCE
+```
+
+**1. Left Mouse Button Pressed**
+
+```py
+        if event == cv2.EVENT_LBUTTONDOWN:       #鼠标左键按下
+            self.mouse_click = True
+            self.drag_start = (x, y)       #鼠标起始位置
+            self.track_window = None
+```
+
+When the mouse event is left button down (LBUTTONDOWN), the current marker point drag_start = (x, y) is recorded. However, if the selection area has not yet appeared, self.track_window is set to None.
+
+**2. Mouse Drag**
+
+```py
+        if self.drag_start:       #是否开始拖动鼠标，记录鼠标位置
+            xmin = min(x, self.drag_start[0])
+            ymin = min(y, self.drag_start[1])
+            xmax = max(x, self.drag_start[0])
+            ymax = max(y, self.drag_start[1])
+            self.selection = (xmin, ymin, xmax, ymax)
+```
+
+The functionality for dragging after left-clicking is shown in the diagram above. xmin and ymin record the minimum x and y image coordinates of the mouse during dragging, corresponding to the top-left corner of the selection area. xmax and ymax record the maximum x and y image coordinates of the mouse during dragging, corresponding to the bottom-right corner of the selection area. These two points are stored in the self.selection variable for subsequent recognition detection and result drawing.
+
+**3. Mouse Release:**
+
+```py
+        if event == cv2.EVENT_LBUTTONUP:        #鼠标左键松开
+            self.mouse_click = False
+            self.drag_start = None
+            self.track_window = self.selection
+            self.selection = None
+```
+
+After releasing the left mouse button, the mouse click event is set to False, and the dragging state (drag_start) is also set to None. At the same time, the selection area result (track_window) will be assigned to the current self.selection variable. Then, the self.selection variable is set to None. After releasing the mouse, the process proceeds to the stage of target object recognition and tracking.
+
+**4. Right-Click to Clear:**
+
+```py
+        if event == cv2.EVENT_RBUTTONDOWN:
+            self.mouse_click = False
+            self.selection = None   # 实时跟踪鼠标的跟踪区域
+            self.track_window = None   # 要检测的物体所在区域
+            self.drag_start = None   # 标记，是否开始拖动鼠标
+            self.start_circle = True
+            self.start_click = False
+            self.mecanum_pub.publish(Twist())
+            self.tracker = cv2.legacy.TrackerMedianFlow_create()
+            fs = cv2.FileStorage("custom_csrt.xml", cv2.FILE_STORAGE_READ)
+            fn = fs.getFirstTopLevelNode()
+            #tracker.save('default_csrt.xml')
+            self.tracker.read(fn)
+```
+
+In this section, many basic parameters are reinitialized and redefined, as they were previously initialized in the class initialization function. Therefore, after right-clicking, the state of these parameters needs to be cleared. The `set_servos` function controls the pan-tilt servo angles. self.joints_pub is the publisher for the pan-tilt servos (declared during initialization). The frequency of 100 ms is used for sending messages, 6 represents the servo number (servo 6), and `self.y_dis`represents the servo's deviation angle. It's recommended to keep these parameters at their default values.
+
+* **Determining Target Position Function image_proc()**
+
+After selecting the region of interest (ROI) by drawing a rectangle around the target object, the target detection tracker can be used for recognition and tracking. Additionally, relevant image drawing tasks are completed within this function. These include: mouse click events, drawing the selection region, and gimbal servo tracking.
+
+**1. Drawing the Selection Region:**
+
+```py
+elif self.selection:      #跟踪目标的窗口随鼠标拖动实时显示
+cv2.rectangle(image, (self.selection[0], self.selection[1]), (self.selection[2], self.selection[3]), (0, 0, 255), 2)
+```
+
+Using the cv2.rectangle function in OpenCV to draw the target region, where:
+
+selection\[0\] represents the x-coordinate of the top-left corner of the image.
+
+selection\[1\] represents the y-coordinate of the top-left corner of the image.
+
+selection\[2\] represents the x-coordinate of the bottom-right corner of the image.
+
+selection\[3\] represents the y-coordinate of the bottom-right corner of the image.
+
+(0, 0, 255) represents the BGR values, indicating the color of the drawn lines. Here, it's green. If changed to (255, 0, 0), the color will change to red.
+
+2 represents the thickness of the lines. Increasing this value will make the lines thicker, and decreasing it will make them thinner. The lower limit is 0.
+
+**2. Drawing the Target Tracking Region:**
+
+```py
+if self.track_window:      #跟踪目标的窗口画出后，实时标出跟踪目标
+cv2.rectangle(image, (self.track_window[0], self.track_window[1]), (self.track_window[2], self.track_window[3]), (0, 0, 255), 2)
+```
+
+Using the cv2.rectangle function in OpenCV to draw the target region, where:
+
+track_window\[0\] represents the x-coordinate of the top-left corner of the image.
+
+track_window\[1\] represents the y-coordinate of the top-left corner of the image.
+
+track_window\[2\] represents the x-coordinate of the bottom-right corner of the image.
+
+track_window\[3\] represents the y-coordinate of the bottom-right corner of the image.
+
+(0, 0, 255) represents the BGR values, indicating the color of the drawn lines. Here, it's green. If changed to (255, 0, 0), the color will change to red.
+
+2 represents the thickness of the lines. Increasing this value will make the lines thicker, and decreasing it will make them thinner. The lower limit is 0.
+
+**3. Pan-tilt Servo Tracking:**
+
+After recognizing the target object, it's necessary to logically filter and process the target's position information and then perform pan-tilt tracking.
+
+```py
+			twist = Twist()
+            ok, bbox = self.tracker.update(image)
+            if ok and min(bbox) > 0:
+                p1 = (int(bbox[0]), int(bbox[1]))
+                p2 = (int(bbox[0] + bbox[2]), int(bbox[1] + bbox[3]))
+                center = [(p1[0] + p2[0])/2, (p1[1] + p2[1])/2]
+                roi = self.depth_frame[p1[1]:p2[1], p1[0]:p2[0]]
+                roi_h, roi_w = roi.shape
+                if roi_h > 0 and roi_w > 0:
+                    roi_cut = [1/3, 1/3]
+                    if roi_w < 100:
+                        roi_cut[1] = 0
+                    if roi_h < 100:
+                        roi_cut[0] = 0
+                    roi_distance = roi[int(roi_h*roi_cut[0]):(roi_h - int(roi_h*roi_cut[0])), 
+                            int(roi_w*roi_cut[1]):(roi_w - int(roi_w*roi_cut[1]))]
+                    try:
+                        distance = int(np.mean(roi_distance[np.logical_and(roi_distance>0, roi_distance<30000)])/10)
+                    except:
+                        distance = self.DISTANCE
+                    cv2.putText(image, 'Distance: ' + str(distance) + 'cm', (10, 460), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 0), 1) 
+                    #cv2.drawMarker(image, (int(center[0]), int(center[1])), (0, 255, 0), markerType=0, thickness=2, line_type=cv2.LINE_AA)
+                    cv2.rectangle(image, p1, p2, (0, 255, 0), 2, 1)
+                    h, w = image.shape[:2]
+```
+
+In the code shown above, ok and bbox represent the flag indicating the detection result (1 for detection, 0 otherwise) and the bounding box position of the detected target result, respectively. bbox\[0\] represents the x-coordinate of the top-left corner, bbox\[1\] represents the y-coordinate of the top-left corner, bbox\[2\] represents the width of the bounding box, and bbox\[3\] represents the height of the bounding box.
+
+Similarly, the drawing method can refer to the previous two sections (cv2.rectangle). If ok is False, meaning no detection result is found, a message will be printed on the image using cv2.putText. Here, image is the displayed image, "**Tracking failure detected!**" is the message to be printed, (10, 460) is the pixel coordinate position for printing, cv2.FONT_HERSHEY_SIMPLEX is the font style, 0.6 is the font size, (255, 255, 0) is the font color. If you need to modify it, you can refer to the previous tutorial documentation. 1 is the thickness of the lines. Increasing this value will make the lines thicker, and decreasing it will make them thinner. The lower limit is 0.
